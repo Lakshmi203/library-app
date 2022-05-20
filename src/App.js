@@ -1,24 +1,47 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
+import BookDetail from './components/BookDetail';
+import Navbar from './components/Navbar';
+import Checkout from './pages/Checkout';
+import ErrorPage from './pages/ErrorPage';
+import StarBooks from './pages/StarBooks';
+import Home from './pages/Home';
+import {useState} from 'react'
+// import { BookData } from './BookData'
 
 function App() {
+
+  let [favItem, setFavItem] = useState([{img:'', name:''}])
+  // let [favAuthor, setFavAuthor] = useState([])
+
+  function getFavImg(imgSrc, author){
+    // setFavImage([...favImage, imgSrc])
+    // setFavAuthor([...favAuthor, author])
+    setFavItem([...favItem, {img: imgSrc, name: author}])
+
+  }
+  const removeFavourite = (item) => {
+    setFavItem([...favItem].filter((currentItem) => {
+      return currentItem !== item
+    }))
+
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route path='/checkout' element={<Checkout favItem={favItem} setFavItem={setFavItem} removeFavourite={removeFavourite} />} />
+          {/* {BookData.map((book) => (<Link to={'books/' + book.id} />)} */}
+  
+          <Route path='/book/:id' element={<BookDetail getFavImg={getFavImg} />} />
+          <Route path='/starbooks' element={<StarBooks />} />
+          <Route path='*' element={<ErrorPage />} />
+
+        </Routes>
+      </Router>
+    </>
   );
 }
 
