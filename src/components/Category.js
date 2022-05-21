@@ -52,12 +52,18 @@ const Category = () => {
       // setActiveClass(currenClass)
 
     }
+    const showAll = () =>{
+      const result=BookData.map((item) => {
+        return item
+      });
+      setData(result);
+    }
     // className={`${activeClass}`}
   return (
     <div className="category-section">
   <div className='categories'>
     <div className='category'>
-      <button>All</button>
+      <button onClick={showAll}>All</button>
     <button onClick={()=>showCategory('Adventure')}>Adventure</button>
     <button onClick={()=>showCategory('Horror')}>Horror</button>
     <button onClick={()=>showCategory('Fantasy')}>Fantasy</button>
